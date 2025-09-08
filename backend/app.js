@@ -1,13 +1,23 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
-import { router } from "./routes/authRoutes";
-import bodyParser from "body-parser";
 const app = express();
-
+import bodyParser from "body-parser";
+import { dashboard } from "./routes/dashboard.js";
+import cors from "cors";
+import { router } from "./routes/authRoutes.js";
+import connectDB from "./db/db.js";
+import { habbits } from "./routes/habbitsRoutes.js";
+// import authMiddleware from "./middleware.js";
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+await connectDB();
 
 app.use(bodyParser.json());
 app.use("/auth", router);
+app.use("/dashboard", dashboard);
+app.use("/habits", habbits);
 
 app.listen(process.env.PORT, () => {
   console.log("server is running");
