@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 const CreateHabit = () => {
   const [title, setTitle] = useState("");
-  const [freq, setFreq] = useState("");
-  const [category, setCategory] = useState("");
+  const [freq, setFreq] = useState("daily");
+  const [category, setCategory] = useState("Other");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 

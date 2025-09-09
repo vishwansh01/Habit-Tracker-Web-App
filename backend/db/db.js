@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
-export const Users = mongoose.model("Users", userSchema);
+export const Users = mongoose.model("User", userSchema);
 
 const habitsSchema = new mongoose.Schema(
   {
@@ -73,7 +73,7 @@ const habitsSchema = new mongoose.Schema(
   { timestamps: true }
 );
 habitsSchema.index({ user: 1, name: 1 }, { unique: true });
-export const Habits = mongoose.model("Habits", habitsSchema);
+export const Habits = mongoose.model("Habit", habitsSchema);
 const checkInSchema = new mongoose.Schema({
   habit: {
     type: mongoose.Schema.Types.ObjectId,

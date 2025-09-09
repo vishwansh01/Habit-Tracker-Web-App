@@ -6,7 +6,10 @@ const Dashboard = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
   const [habits, setHabits] = useState(null);
-  console.log(habits);
+  const [search, setSearch] = useState("");
+  const [users, setUsers] = useState(null);
+  const [cross, setCross] = useState(false);
+  // console.log(habits);
   useEffect(() => {
     const isLoggedIn = async () => {
       const token = localStorage.getItem("token");
@@ -41,9 +44,9 @@ const Dashboard = () => {
           }
         );
         const hab = await payload.json();
-        console.log(hab.length);
-        if (hab.length != 0) {
-          setHabits(hab);
+        // console.log(hab);
+        if (hab.habits.length != 0) {
+          setHabits(hab.habits);
         }
       }
     };
@@ -58,6 +61,50 @@ const Dashboard = () => {
       {loggedIn ? (
         <div>
           <div className="flex items-center gap-4 p-2 w-full justify-end">
+            <button
+              className="bg-blue-500 hover:bg-blue-600 px-4 h-fit py-1 font-bold rounded-xl"
+              onClick={() => {
+                navigate("/feed");
+              }}
+            >
+              View feed
+            </button>
+            <div>
+              <input
+                type="name"
+                className="bg-white text-slate-700 font-bold px-2 rounded-lg py-1"
+                placeholder="Enter user gmail"
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+              />
+              <button
+                className="bg-green-500 cursor-pointer hover:bg-green-600 px-2 py-1 font-bold rounded-lg mx-3"
+                onClick={async () => {
+                  const payload = await fetch(
+                    `${
+                      import.meta.env.VITE_BACKEND_URL
+                    }/social/users/search?q=${search}`,
+                    {
+                      method: "GET",
+                      headers: {
+                        Authorization: localStorage.getItem("token"),
+                        "Content-Type": "application/json",
+                      },
+                    }
+                  );
+                  const hab = await payload.json();
+                  console.log(hab);
+                  if (hab.users) {
+                    setUsers(hab.users);
+                    setCross(true);
+                  }
+                }}
+              >
+                Search
+              </button>
+            </div>
             <button
               className="bg-blue-500 hover:bg-blue-600 px-4 h-fit py-1 font-bold rounded-xl"
               onClick={() => {
@@ -87,6 +134,11 @@ const Dashboard = () => {
                           _id: habit._id,
                           freq: habit.frequency,
                           category: habit.category,
+                          checkIns: habit.totalCheckIns,
+                          streak: habit.streak,
+                          completionRate: habit.completionRate,
+                          createdAt: habit.createdAt,
+                          completedToday: habit.completedToday,
                         }}
                       />
                     </div>
@@ -109,6 +161,86 @@ const Dashboard = () => {
           >
             Login
           </Link>
+        </div>
+      )}
+      {cross && (
+        <div
+          className={`
+        absolute top-0 left-0 z-10 overflow-scroll bg-black/50 w-screen h-screen flex items-center justify-center`}
+        >
+          {users &&
+            users.map((user) => {
+              return (
+                <div key={user._id} className="border p-2">
+                  <div>Email : {user.email}</div>
+                  {/* <div>Id : {user._id}</div> */}
+                  <div> Following : {user.isFollowing ? "Yes" : "No"}</div>
+                  {!user.isFollowing ? (
+                    <button
+                      className="bg-blue-500 my-2 hover:bg-blue-600 cursor-pointer rounded-lg text-lg font-bold py-1 px-2"
+                      onClick={async () => {
+                        const payload = await fetch(
+                          `${import.meta.env.VITE_BACKEND_URL}/social/users/${
+                            user.email
+                          }/follow`,
+                          {
+                            method: "POST",
+                            headers: {
+                              Authorization: localStorage.getItem("token"),
+                              "Content-Type": "application/json",
+                            },
+                          }
+                        );
+                        const hab = await payload.json();
+                        console.log(hab);
+                        if (hab.message) {
+                          window.location.reload();
+                          // setUsers(hab.users);
+                          // setCross(true);
+                        }
+                      }}
+                    >
+                      Follow
+                    </button>
+                  ) : (
+                    <button
+                      className="bg-red-600 my-2 hover:bg-red-700 cursor-pointer rounded-lg text-lg font-bold py-1 px-2"
+                      onClick={async () => {
+                        const payload = await fetch(
+                          `${import.meta.env.VITE_BACKEND_URL}/social/users/${
+                            user.email
+                          }/follow`,
+                          {
+                            method: "DELETE",
+                            headers: {
+                              Authorization: localStorage.getItem("token"),
+                              "Content-Type": "application/json",
+                            },
+                          }
+                        );
+                        const hab = await payload.json();
+                        console.log(hab);
+                        if (hab.message) {
+                          window.location.reload();
+                          // setUsers(hab.users);
+                          // setCross(true);
+                        }
+                      }}
+                    >
+                      Unfollow
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+          <div
+            className="m-4 cursor-pointer"
+            onClick={() => {
+              setCross(false);
+            }}
+          >
+            X
+          </div>
         </div>
       )}
     </div>
