@@ -27,7 +27,7 @@ app.use(
 );
 
 // Make sure OPTIONS requests are handled
-app.options("/*", cors());
+// app.options("/*", cors());
 app.use(express.urlencoded({ extended: true }));
 await connectDB();
 
