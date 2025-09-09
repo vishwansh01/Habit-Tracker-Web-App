@@ -17,7 +17,10 @@ app.use(express.json());
 // ];
 app.use(
   cors({
-    origin: "https://habit-tracker-web-app-pi.vercel.app", // your frontend URL
+    origin: [
+      "http://localhost:5173", // local dev
+      "https://habit-tracker-web-app-pi.vercel.app", // Vercel frontend
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
