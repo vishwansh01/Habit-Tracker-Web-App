@@ -11,7 +11,20 @@ import { habbits } from "./routes/habbitsRoutes.js";
 import { social } from "./routes/social.js";
 // import authMiddleware from "./middleware.js";
 app.use(express.json());
-app.use(cors());
+// const allowedOrigins = [
+//   "http://localhost:5173", // local dev
+//   "https://habit-tracker-web-app-pi.vercel.app", // vercel frontend
+// ];
+app.use(
+  cors({
+    origin: "https://habit-tracker-web-app-pi.vercel.app", // your frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+// Make sure OPTIONS requests are handled
+app.options("*", cors());
 app.use(express.urlencoded({ extended: true }));
 await connectDB();
 
