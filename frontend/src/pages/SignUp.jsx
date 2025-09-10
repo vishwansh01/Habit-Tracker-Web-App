@@ -1,13 +1,25 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { signupSchema } from "../schemas/schema";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const SignUp = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(signupSchema),
+  });
   const onSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
+    // e.preventDefault();
+    // const formData = new FormData(e.currentTarget);
+    // const data = Object.fromEntries(formData.entries());
+    const data = e;
+    console.log("data", e);
     // console.log(data);
     // console.log(import.meta.env.VITE_BACKEND_URL);
     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/signup`, {
@@ -18,7 +30,7 @@ const SignUp = () => {
       body: JSON.stringify(data),
     });
     const val = await res.json();
-    // console.log(val);
+    // console.log(val);/
     if (val.message) {
       setMessage(`${val.message}! Please login `);
       setError("");
@@ -39,8 +51,10 @@ const SignUp = () => {
         </Link>
       </div>
       <div className="text-white flex flex-col items-center justify-center h-full">
-        <form className="flex flex-col gap-3.5 w-1/2" onSubmit={onSubmit}>
-          {/* <div> */}
+        <form
+          className="flex flex-col gap-3.5 w-1/2"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <label
             htmlFor="email"
             className="font-semibold text-xl cursor-pointer"
@@ -48,13 +62,16 @@ const SignUp = () => {
             Gmail
           </label>
           <input
+            {...register("email")}
             placeholder="abc@gmail.com"
             type="email"
             id="email"
             name="email"
             className="bg-white w-full rounded-xl hover:bg-slate-200 text-black px-2 py-1 font-semibold"
           />
-          {/* </div> */}
+          {errors.email && (
+            <p className="text-red-500">{errors.email.message}</p>
+          )}
           <label
             htmlFor="name"
             className="font-semibold text-xl cursor-pointer"
@@ -62,12 +79,14 @@ const SignUp = () => {
             Name
           </label>
           <input
+            {...register("name")}
             placeholder="Jane Smith"
             id="name"
             type="name"
             name="name"
             className="bg-white rounded-xl w-full hover:bg-slate-200 text-black px-2 py-1 font-semibold"
           />
+          {errors.name && <p className="text-red-500">{errors.name.message}</p>}
           <label
             htmlFor="password"
             className="font-semibold text-xl cursor-pointer"
@@ -75,12 +94,16 @@ const SignUp = () => {
             Password
           </label>
           <input
+            {...register("password")}
             placeholder="•••••••"
             type="password"
             id="password"
             name="password"
             className="bg-white rounded-xl w-full hover:bg-slate-200 text-black px-2 py-1 font-semibold"
           />
+          {errors.password && (
+            <p className="text-red-500">{errors.password.message}</p>
+          )}
           <div className="text-center">
             <button
               type="submit"

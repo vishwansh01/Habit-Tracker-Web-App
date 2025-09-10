@@ -1,14 +1,24 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "../schemas/schema";
 const Login = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+  });
   const onSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
+    // e.preventDefault();
+    // const formData = new FormData(e.currentTarget);
+    // const data = Object.fromEntries(formData.entries());
+    const data = e;
     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, {
       method: "POST",
       headers: {
@@ -38,7 +48,10 @@ const Login = () => {
         </Link>
       </div>
       <div className="text-white flex flex-col items-center justify-center h-full">
-        <form className="flex flex-col gap-3.5 w-1/2" onSubmit={onSubmit}>
+        <form
+          className="flex flex-col gap-3.5 w-1/2"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           {/* <div> */}
           <label
             htmlFor="email"
@@ -47,26 +60,16 @@ const Login = () => {
             Gmail
           </label>
           <input
+            {...register("email")}
             placeholder="abc@gmail.com"
             type="email"
             id="email"
             name="email"
             className="bg-white w-full rounded-xl hover:bg-slate-200 text-black px-2 py-1 font-semibold"
           />
-          {/* </div> */}
-          {/* <label
-            htmlFor="name"
-            className="font-semibold text-xl cursor-pointer"
-          >
-            Name
-          </label>
-          <input
-            placeholder="Jane Smith"
-            id="name"
-            type="name"
-            name="name"
-            className="bg-white rounded-xl w-full hover:bg-slate-200 text-black px-2 py-1 font-semibold"
-          /> */}
+          {errors.email && (
+            <p className="text-red-500">{errors.email.message}</p>
+          )}
           <label
             htmlFor="password"
             className="font-semibold text-xl cursor-pointer"
@@ -74,12 +77,16 @@ const Login = () => {
             Password
           </label>
           <input
+            {...register("password")}
             placeholder="•••••••"
             type="password"
             id="password"
             name="password"
             className="bg-white rounded-xl w-full hover:bg-slate-200 text-black px-2 py-1 font-semibold"
           />
+          {errors.password && (
+            <p className="text-red-500">{errors.password.message}</p>
+          )}
           <div className="text-center">
             <button
               type="submit"

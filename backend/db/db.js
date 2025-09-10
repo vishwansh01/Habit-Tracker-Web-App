@@ -72,7 +72,7 @@ const habitsSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-habitsSchema.index({ user: 1, name: 1 }, { unique: true });
+habitsSchema.index({ user: 1, title: 1 }, { unique: true });
 export const Habits = mongoose.model("Habit", habitsSchema);
 const checkInSchema = new mongoose.Schema({
   habit: {

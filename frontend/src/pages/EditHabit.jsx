@@ -56,7 +56,7 @@ const EditHabit = () => {
               id="title"
               name="title"
               type="title"
-              className=" bg-white text-black"
+              className=" bg-white text-black py-1 px-2 rounded-lg"
               value={title}
               onChange={(e) => {
                 setTitle(e.target.value);
@@ -139,7 +139,7 @@ const EditHabit = () => {
       )}
       <div>
         <button
-          className="bg-green-500 hover:bg-green-600 py-1 px-2 font-bold rounded-lg text-lg"
+          className="bg-green-500 cursor-pointer hover:bg-green-600 py-1 px-2 font-bold rounded-lg text-lg"
           onClick={async () => {
             const data = await fetch(
               `${import.meta.env.VITE_BACKEND_URL}/habits/${habit._id}/change`,
@@ -170,7 +170,7 @@ const EditHabit = () => {
       </div>
       <div>
         <button
-          className="bg-red-500 hover:bg-red-600 py-1 px-2 font-bold rounded-lg text-lg"
+          className="bg-red-500 cursor-pointer hover:bg-red-600 py-1 px-2 font-bold rounded-lg text-lg"
           onClick={async () => {
             const data = await fetch(
               `${import.meta.env.VITE_BACKEND_URL}/habits/${habit._id}`,

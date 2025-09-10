@@ -37,6 +37,7 @@ social.get("/users/search", authMiddleware, async (req, res) => {
     const usersWithFollowStatus = users.map((user) => ({
       ...user.toObject(),
       isFollowing: followingIds.includes(user._id.toString()),
+      currUser: req.user.email,
     }));
 
     res.json({ users: usersWithFollowStatus });

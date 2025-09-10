@@ -10,6 +10,9 @@ habbits.post("/create", authMiddleware, async (req, res) => {
     const title = req.body.title;
     const freq = req.body.frequency;
     const category = req.body.category;
+    console.log(title);
+    console.log(freq);
+    console.log(category);
     const existingUser = await Users.findOne({ email: req.user.email });
     // console.log(existingUser);
     const habbit = new Habits({

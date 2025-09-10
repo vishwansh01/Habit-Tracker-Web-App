@@ -35,7 +35,7 @@ const Feed = () => {
         <div>
           <div className="w-screen text-end">
             <button
-              className="bg-blue-500 hover:bg-blue-600 rounded-xl font-bold text-lg py-1 px-2 m-2"
+              className="bg-blue-500 cursor-pointer hover:bg-blue-600 rounded-xl font-bold text-lg py-1 px-2 m-2"
               onClick={() => {
                 navigate("/dashboard");
               }}

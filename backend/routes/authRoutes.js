@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 
 router.post("/signup", async (req, res) => {
   const existingUser = await Users.findOne({ email: req.body.email });
+  console.log(existingUser);
   if (existingUser) {
     return res.status(400).json({ error: "Email already exists" });
   }

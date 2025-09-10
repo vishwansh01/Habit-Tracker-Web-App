@@ -35,6 +35,16 @@ dashboard.get("/habits", authMiddleware, async (req, res) => {
       today.setHours(0, 0, 0, 0);
 
       let checkDate = new Date(today);
+
+      // First check: if today has no check-in, start from yesterday
+      const todayCheckIn = checkIns.find(
+        (ci) => ci.date.toDateString() === today.toDateString()
+      );
+
+      if (!todayCheckIn) {
+        checkDate.setDate(checkDate.getDate() - 1);
+      }
+
       while (true) {
         const checkIn = checkIns.find(
           (ci) => ci.date.toDateString() === checkDate.toDateString()

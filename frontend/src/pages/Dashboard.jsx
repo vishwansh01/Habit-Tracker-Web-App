@@ -46,6 +46,7 @@ const Dashboard = () => {
         const hab = await payload.json();
         // console.log(hab);
         if (hab.habits.length != 0) {
+          console.log(hab.habits);
           setHabits(hab.habits);
         }
       }
@@ -59,20 +60,20 @@ const Dashboard = () => {
   return (
     <div className="text-white">
       {loggedIn ? (
-        <div>
-          <div className="flex items-center gap-4 p-2 w-full justify-end">
+        <div className="">
+          <div className="flex items-center gap-4 p-2 w-screen lg:justify-end">
             <button
-              className="bg-blue-500 hover:bg-blue-600 px-4 h-fit py-1 font-bold rounded-xl"
+              className="bg-blue-500 cursor-pointer hover:bg-blue-600 text-xs lg:text-xl px-2 lg:font-bold  lg:px-4 h-fit py-1 rounded-xl"
               onClick={() => {
                 navigate("/feed");
               }}
             >
               View feed
             </button>
-            <div>
+            <div className="flex flex-col lg:flex-row">
               <input
                 type="name"
-                className="bg-white text-slate-700 font-bold px-2 rounded-lg py-1"
+                className="bg-white text-slate-700 w-3/5 lg:w-full text-xs lg:text-xl font-bold px-2 rounded-lg py-1"
                 placeholder="Enter user gmail"
                 value={search}
                 onChange={(e) => {
@@ -80,7 +81,7 @@ const Dashboard = () => {
                 }}
               />
               <button
-                className="bg-green-500 cursor-pointer hover:bg-green-600 px-2 py-1 font-bold rounded-lg mx-3"
+                className="bg-green-500 cursor-pointer hover:bg-green-600 text-sm lg:text-xl px-2 lg:font-bold  lg:px-4 rounded-lg my-2 lg:my-0 lg mx-3"
                 onClick={async () => {
                   const payload = await fetch(
                     `${
@@ -95,8 +96,9 @@ const Dashboard = () => {
                     }
                   );
                   const hab = await payload.json();
-                  console.log(hab);
+                  // console.log(hab);
                   if (hab.users) {
+                    console.log(hab);
                     setUsers(hab.users);
                     setCross(true);
                   }
@@ -106,7 +108,7 @@ const Dashboard = () => {
               </button>
             </div>
             <button
-              className="bg-blue-500 hover:bg-blue-600 px-4 h-fit py-1 font-bold rounded-xl"
+              className="bg-blue-500  cursor-pointer hover:bg-blue-600 text-xs lg:text-xl px-2 lg:font-bold  lg:px-4 h-fit py-1 rounded-xl"
               onClick={() => {
                 navigate("/create");
               }}
@@ -114,7 +116,7 @@ const Dashboard = () => {
               Create habbit
             </button>
             <button
-              className="bg-red-500 hover:bg-red-600 px-4 py-1 font-bold rounded-xl my-4"
+              className="bg-red-500  cursor-pointer hover:bg-red-600 py-1 text-xs lg:text-xl px-2 lg:font-bold  lg:px-4 rounded-xl my-4"
               onClick={logOut}
             >
               Log Out
@@ -174,61 +176,67 @@ const Dashboard = () => {
                 <div key={user._id} className="border p-2">
                   <div>Email : {user.email}</div>
                   {/* <div>Id : {user._id}</div> */}
-                  <div> Following : {user.isFollowing ? "Yes" : "No"}</div>
-                  {!user.isFollowing ? (
-                    <button
-                      className="bg-blue-500 my-2 hover:bg-blue-600 cursor-pointer rounded-lg text-lg font-bold py-1 px-2"
-                      onClick={async () => {
-                        const payload = await fetch(
-                          `${import.meta.env.VITE_BACKEND_URL}/social/users/${
-                            user.email
-                          }/follow`,
-                          {
-                            method: "POST",
-                            headers: {
-                              Authorization: localStorage.getItem("token"),
-                              "Content-Type": "application/json",
-                            },
+                  {user.email !== user.currUser && (
+                    <div> Following : {user.isFollowing ? "Yes" : "No"}</div>
+                  )}
+                  {user.email !== user.currUser ? (
+                    !user.isFollowing ? (
+                      <button
+                        className="bg-blue-500 my-2 hover:bg-blue-600 cursor-pointer rounded-lg text-xs lg:text-lg lg:font-bold  lg:px-4 py-1 px-2"
+                        onClick={async () => {
+                          const payload = await fetch(
+                            `${import.meta.env.VITE_BACKEND_URL}/social/users/${
+                              user.email
+                            }/follow`,
+                            {
+                              method: "POST",
+                              headers: {
+                                Authorization: localStorage.getItem("token"),
+                                "Content-Type": "application/json",
+                              },
+                            }
+                          );
+                          const hab = await payload.json();
+                          console.log(hab);
+                          if (hab.message) {
+                            window.location.reload();
+                            // setUsers(hab.users);
+                            // setCross(true);
                           }
-                        );
-                        const hab = await payload.json();
-                        console.log(hab);
-                        if (hab.message) {
-                          window.location.reload();
-                          // setUsers(hab.users);
-                          // setCross(true);
-                        }
-                      }}
-                    >
-                      Follow
-                    </button>
+                        }}
+                      >
+                        Follow
+                      </button>
+                    ) : (
+                      <button
+                        className="bg-red-600 my-2 hover:bg-red-700 cursor-pointer rounded-lg text-lg font-bold py-1 px-2"
+                        onClick={async () => {
+                          const payload = await fetch(
+                            `${import.meta.env.VITE_BACKEND_URL}/social/users/${
+                              user.email
+                            }/follow`,
+                            {
+                              method: "DELETE",
+                              headers: {
+                                Authorization: localStorage.getItem("token"),
+                                "Content-Type": "application/json",
+                              },
+                            }
+                          );
+                          const hab = await payload.json();
+                          console.log(hab);
+                          if (hab.message) {
+                            window.location.reload();
+                            // setUsers(hab.users);
+                            // setCross(true);
+                          }
+                        }}
+                      >
+                        Unfollow
+                      </button>
+                    )
                   ) : (
-                    <button
-                      className="bg-red-600 my-2 hover:bg-red-700 cursor-pointer rounded-lg text-lg font-bold py-1 px-2"
-                      onClick={async () => {
-                        const payload = await fetch(
-                          `${import.meta.env.VITE_BACKEND_URL}/social/users/${
-                            user.email
-                          }/follow`,
-                          {
-                            method: "DELETE",
-                            headers: {
-                              Authorization: localStorage.getItem("token"),
-                              "Content-Type": "application/json",
-                            },
-                          }
-                        );
-                        const hab = await payload.json();
-                        console.log(hab);
-                        if (hab.message) {
-                          window.location.reload();
-                          // setUsers(hab.users);
-                          // setCross(true);
-                        }
-                      }}
-                    >
-                      Unfollow
-                    </button>
+                    <div>You can't follow yourself</div>
                   )}
                 </div>
               );

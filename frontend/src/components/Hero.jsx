@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <div className="flex flex-col bg-[url(/pattern-circles.svg)] bg-contain bg-no-repeat bg-center h-screen w-screen items-center justify-center">
-      <div className="text-4xl h-16 font-bold w-fit bg-gradient-to-r from-blue-600 to-white text-transparent bg-clip-text">
+      <div className="text-xl lg:text-4xl h-16 font-bold w-fit bg-gradient-to-r from-blue-600 to-white text-transparent bg-clip-text">
         Build Better Habits Together
       </div>
-      <div className="text-white font-semibold text-xl">
+      <div className="text-white font-semibold text-xs text-center lg:text-xl">
         Create habits, track your progress daily, and stay accountable with
         friends.
       </div>
@@ -17,13 +17,13 @@ const Hero = () => {
         </button> */}
         <Link
           to="/signup"
-          className=" bg-blue-600 text-white p-2 px-4 font-bold rounded-md hover:bg-blue-700 cursor-pointer"
+          className=" bg-blue-600 text-white lg:p-2 h-fit py-1 text-xs lg:text-xl px-2 lg:px-4 font-bold rounded-md hover:bg-blue-700 cursor-pointer"
         >
           Sign Up
         </Link>
         <Link
           to="/login"
-          className="bg-[#3730a3] text-white p-2 px-4 font-bold rounded-md hover:bg-[#2c2591] cursor-pointer"
+          className="bg-[#3730a3] text-white lg:p-2 text-xs lg:text-xl py-1 px-2 h0fit lg:px-4 font-bold rounded-md hover:bg-[#2c2591] cursor-pointer"
         >
           Login
         </Link>
