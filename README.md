@@ -86,7 +86,6 @@ VITE_API_URL=http://localhost:3000
 - Password hashing with bcrypt
 - JWT token authentication
 - Input validation and sanitization
-- Rate limiting (100 req/15min)
 - Duplicate prevention
 - CORS protection
 
