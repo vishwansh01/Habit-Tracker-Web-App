@@ -32,8 +32,7 @@ A social habit tracking application built with React, Express.js, and MongoDB. T
 │   ├── middleware/   # Authentication & validation
 │   └── app.js     # Main server
 ├── frontend/         # React application
-│   └── src/          # Components and logic
-└── complete_frontend.html  # Single-file demo version
+   └── src/          # Components and logic
 ```
 
 ## 🏃‍♂️ Quick Start
