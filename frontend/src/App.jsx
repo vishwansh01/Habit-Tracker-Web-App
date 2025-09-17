@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import CreateHabit from "./pages/CreateHabit";
 import Feed from "./pages/Feed";
 import EditHabit from "./pages/EditHabit";
+import Leaderboard from "./pages/Leaderboard";
 
 function App() {
   // const [count, setCount] = useState(0);
@@ -23,6 +24,7 @@ function App() {
         <Route path="/create" element={<CreateHabit />} />
         <Route path="/feed" element={<Feed />} />
         <Route path="/edit/:id" element={<EditHabit />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
     </div>
   );

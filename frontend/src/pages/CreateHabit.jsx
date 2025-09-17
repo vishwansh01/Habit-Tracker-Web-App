@@ -38,19 +38,11 @@ const CreateHabit = () => {
 
     if (!validationResult.success) {
       const validationErrors = {};
-      // console.log(validationResult.error.issues);
       if (validationResult.error.issues) {
-        // console.log(validationResult.error.ZodError[0].path[0]);
         validationResult.error.issues.forEach((error) => {
           validationErrors[error.path[0]] = error.message;
         });
       }
-      // else {
-      //   validationResult.error.forEach((error) => {
-      //     validationErrors[error.path[0]] = error.message;
-      //   });
-      // }
-      // console.log(validationErrors);
       setErrors(validationErrors);
       return;
     }
@@ -89,7 +81,6 @@ const CreateHabit = () => {
             id="title"
             onChange={(e) => {
               setTitle(e.target.value);
-              // Clear title error when user starts typing
               if (errors.title) {
                 setErrors((prev) => ({ ...prev, title: undefined }));
               }

@@ -2,10 +2,15 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Collapsible from "../components/Collapsible";
 
 const Feed = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activities, setActivites] = useState(null);
+  const [filter, setFilter] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [filterCategory, setFilterCategory] = useState("");
+  // const [cross, setCross] = useState(false);
   const navigate = useNavigate();
   console.log(activities);
   useEffect(() => {
@@ -29,11 +34,41 @@ const Feed = () => {
     setIsLoggedIn(true);
     getFeed();
   }, []);
+  const handleFreq2 = (e) => {
+    // console.log(e);
+    setFilterCategory(e);
+    setFilter(true);
+    if (errors.category) {
+      setErrors((prev) => ({ ...prev, category: undefined }));
+    }
+  };
   return (
     <div className="text-white">
       {isLoggedIn ? (
         <div>
-          <div className="w-screen text-end">
+          <div className="w-screen text-end flex items-center justify-end">
+            <button
+              className="bg-blue-500 cursor-pointer hover:bg-blue-600 rounded-xl font-bold text-lg py-1 px-2 m-2"
+              onClick={() => {
+                navigate("/leaderboard");
+              }}
+            >
+              Leaderboard
+            </button>
+            <Collapsible
+              label={"Select Category:"}
+              options={[
+                "Health",
+                "Fitness",
+                "Learning",
+                "Productivity",
+                "Mindfulness",
+                "Social",
+                "Other",
+              ]}
+              defaultValue={"Not Selected"}
+              onChange={handleFreq2}
+            />
             <button
               className="bg-blue-500 cursor-pointer hover:bg-blue-600 rounded-xl font-bold text-lg py-1 px-2 m-2"
               onClick={() => {
@@ -46,31 +81,75 @@ const Feed = () => {
           <div className="text-5xl font-semibold border-b w-screen text-center">
             See Your friends activities
           </div>
+          {errors.category && (
+            <div className="text-sm mt-1 text-red-500">{errors.category}</div>
+          )}
           {activities ? (
             <div className="overflow-scroll">
-              {activities.map((activity) => {
-                return (
-                  <div
-                    key={activity.id}
-                    className="w-full m-2 text-slate-400 border-y px-2 py-1"
-                  >
-                    <div className="font-semibold">{activity.user.email} </div>
-                    <div className="font-semibold">Type: {activity.type}</div>
-                    <div>
-                      <div className="">
-                        Date :{" "}
-                        {activity.date
-                          ? activity.date.split("T")[0]
-                          : activity.createdAt.split("T")[0]}
+              {filter
+                ? activities
+                    .filter(
+                      (activity) => activity.habit.category == filterCategory
+                    )
+                    .map((activity) => {
+                      console.log(activity);
+                      return (
+                        <div
+                          key={activity.id}
+                          className="w-full m-2 text-slate-400 border-y px-2 py-1"
+                        >
+                          <div className="font-semibold">
+                            {activity.user.email}{" "}
+                          </div>
+                          <div className="font-semibold">
+                            Type: {activity.type}
+                          </div>
+                          <div>
+                            <div className="">
+                              Date :{" "}
+                              {activity.date
+                                ? activity.date.split("T")[0]
+                                : activity.createdAt.split("T")[0]}
+                            </div>
+                            {activity.habit && (
+                              <div>Category: {activity.habit.category}</div>
+                            )}
+                            {activity.streak && (
+                              <div>Streak : {activity.streak}</div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })
+                : activities.map((activity) => {
+                    return (
+                      <div
+                        key={activity.id}
+                        className="w-full m-2 text-slate-400 border-y px-2 py-1"
+                      >
+                        <div className="font-semibold">
+                          {activity.user.email}{" "}
+                        </div>
+                        <div className="font-semibold">
+                          Type: {activity.type}
+                        </div>
+                        <div>
+                          <div className="">
+                            Date :{" "}
+                            {activity.date
+                              ? activity.date.split("T")[0]
+                              : activity.createdAt.split("T")[0]}
+                          </div>
+                          {activity.habit && (
+                            <div>Category: {activity.habit.category}</div>
+                          )}
+                          {activity.streak && (
+                            <div>Streak : {activity.streak}</div>
+                          )}
+                        </div>
                       </div>
-                      {activity.habit && (
-                        <div>Category: {activity.habit.category}</div>
-                      )}
-                      {activity.streak && <div>Streak : {activity.streak}</div>}
-                    </div>
-                  </div>
-                );
-              })}
+                    );
+                  })}
             </div>
           ) : (
             <div>No Activities</div>

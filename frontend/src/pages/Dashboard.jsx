@@ -53,6 +53,7 @@ const Dashboard = () => {
     };
     isLoggedIn();
   }, []);
+
   const logOut = () => {
     localStorage.removeItem("token");
     navigate("/");
