@@ -147,7 +147,6 @@ const handleCheckIn = (habitId) => {
 ### **Input Validation & Sanitization**
 
 - **express-validator**: Server-side validation for all endpoints
-- **Rate Limiting**: 100 requests per 15 minutes per IP
 - **CORS Configuration**: Restricted to known frontend origins
 - **Password Security**: bcrypt hashing with salt rounds
 

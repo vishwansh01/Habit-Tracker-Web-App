@@ -13,6 +13,8 @@ A social habit tracking application built with React, Express.js, and MongoDB. T
 
 - 🔐 **Secure Authentication** - JWT-based login/register
 - 📊 **Habit Management** - Create, track, edit habits with streak counting
+- 🔍 **Filtering** - Ranked users on the bases of streak
+- 📈 **Leaderboard** - Create, track, edit habits with streak counting
 - 👥 **Social Accountability** - Follow friends, view activity feed
 - 📱 **Responsive Design** - Works on all devices
 - 🛡️ **Edge Case Handling** - Duplicate prevention, validation, security
