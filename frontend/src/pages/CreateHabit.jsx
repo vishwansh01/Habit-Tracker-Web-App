@@ -134,9 +134,6 @@ const CreateHabit = () => {
             <div className="text-sm my-2 text-red-600">{apiError}</div>
           )}
         </div>
-        {/* <form onSubmit={onSubmit}> */}
-        {/* <label htmlFor="title" className="text-white"></label> */}
-        {/* </form> */}
       </div>
     </div>
   );

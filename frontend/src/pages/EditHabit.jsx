@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Collapsible from "../components/Collapsible";
+import Edit from "../components/Edit";
 
 const EditHabit = () => {
   const [habit, setHabit] = useState(null);
@@ -47,95 +48,13 @@ const EditHabit = () => {
   return (
     <div className="text-white h-screen flex gap-4 items-center justify-center flex-col w-screen">
       {habit && (
-        <div className=" flex gap-4 flex-col">
-          <div className="flex flex-col items-start">
-            <label htmlFor="title" className="font-semibold text-lg m-4">
-              Title
-            </label>
-            <input
-              id="title"
-              name="title"
-              type="title"
-              className=" bg-white text-black py-1 px-2 rounded-lg"
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-            />
-          </div>
-          {/* <div>
-            <label htmlFor="title" className=" m-4">
-              Title
-            </label>
-            <input
-              id="title"
-              name="title"
-              type="title"
-              className="w bg-white text-black"
-              value={habit.title}
-              onChange={() => {}}
-            />
-          </div> */}
-          {/* <div>
-            <label htmlFor="title" className=" m-4">
-              Title
-            </label>
-            <input
-              id="title"
-              name="title"
-              type="title"
-              className="w bg-white text-black"
-              value={habit.title}
-              onChange={() => {}}
-            />
-          </div> */}
-          <Collapsible
-            label={"Select Category:"}
-            options={[
-              "Health",
-              "Fitness",
-              "Learning",
-              "Productivity",
-              "Mindfulness",
-              "Social",
-              "Other",
-            ]}
-            defaultValue={`${habit.category}`}
-            onChange={handleFreq2}
-          />
-          <Collapsible
-            label={"Select Frequency:"}
-            options={["daily", "weekly"]}
-            defaultValue={`${habit.frequency}`}
-            onChange={handleFreq1}
-          />
-          {/* <div>
-            <label htmlFor="title" className=" m-4">
-              Title
-            </label>
-            <input
-              id="title"
-              name="title"
-              type="title"
-              className="w bg-white text-black"
-              value={habit.title}
-              onChange={() => {}}
-            />
-          </div> */}
-          {/* <div>
-            <label htmlFor="title" className=" m-4">
-              Title
-            </label>
-            <input
-              id="title"
-              name="title"
-              type="title"
-              className="w bg-white text-black"
-              value={habit.title}
-              onChange={() => {}}
-            />
-          </div> */}
-        </div>
+        <Edit
+          habit={habit}
+          title={title}
+          setTitle={setTitle}
+          handleFreq1={handleFreq1}
+          handleFreq2={handleFreq2}
+        />
       )}
       <div>
         <button

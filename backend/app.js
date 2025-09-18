@@ -16,6 +16,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://habit-tracker-web-app-pi.vercel.app",
+      "http://localhost:4173",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],

@@ -15,9 +15,6 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
   const onSubmit = async (e) => {
-    // e.preventDefault();
-    // const formData = new FormData(e.currentTarget);
-    // const data = Object.fromEntries(formData.entries());
     const data = e;
     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, {
       method: "POST",

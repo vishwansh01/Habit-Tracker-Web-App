@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Collapsible from "../components/Collapsible";
+import FilterFeed from "../components/FilterFeed";
+import RegularFeed from "../components/RegularFeed";
 
 const Feed = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -10,7 +12,6 @@ const Feed = () => {
   const [filter, setFilter] = useState(false);
   const [errors, setErrors] = useState({});
   const [filterCategory, setFilterCategory] = useState("");
-  // const [cross, setCross] = useState(false);
   const navigate = useNavigate();
   console.log(activities);
   useEffect(() => {
@@ -29,13 +30,11 @@ const Feed = () => {
       if (hab.activities) {
         setActivites(hab.activities);
       }
-      //   console.log(hab);
     };
     setIsLoggedIn(true);
     getFeed();
   }, []);
   const handleFreq2 = (e) => {
-    // console.log(e);
     setFilterCategory(e);
     setFilter(true);
     if (errors.category) {
@@ -92,63 +91,11 @@ const Feed = () => {
                       (activity) => activity.habit.category == filterCategory
                     )
                     .map((activity) => {
-                      console.log(activity);
-                      return (
-                        <div
-                          key={activity.id}
-                          className="w-full m-2 text-slate-400 border-y px-2 py-1"
-                        >
-                          <div className="font-semibold">
-                            {activity.user.email}{" "}
-                          </div>
-                          <div className="font-semibold">
-                            Type: {activity.type}
-                          </div>
-                          <div>
-                            <div className="">
-                              Date :{" "}
-                              {activity.date
-                                ? activity.date.split("T")[0]
-                                : activity.createdAt.split("T")[0]}
-                            </div>
-                            {activity.habit && (
-                              <div>Category: {activity.habit.category}</div>
-                            )}
-                            {activity.streak && (
-                              <div>Streak : {activity.streak}</div>
-                            )}
-                          </div>
-                        </div>
-                      );
+                      // console.log(activity);
+                      return <FilterFeed activity={activity} />;
                     })
                 : activities.map((activity) => {
-                    return (
-                      <div
-                        key={activity.id}
-                        className="w-full m-2 text-slate-400 border-y px-2 py-1"
-                      >
-                        <div className="font-semibold">
-                          {activity.user.email}{" "}
-                        </div>
-                        <div className="font-semibold">
-                          Type: {activity.type}
-                        </div>
-                        <div>
-                          <div className="">
-                            Date :{" "}
-                            {activity.date
-                              ? activity.date.split("T")[0]
-                              : activity.createdAt.split("T")[0]}
-                          </div>
-                          {activity.habit && (
-                            <div>Category: {activity.habit.category}</div>
-                          )}
-                          {activity.streak && (
-                            <div>Streak : {activity.streak}</div>
-                          )}
-                        </div>
-                      </div>
-                    );
+                    return <RegularFeed activity={activity} />;
                   })}
             </div>
           ) : (

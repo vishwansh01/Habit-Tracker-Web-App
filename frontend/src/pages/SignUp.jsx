@@ -15,13 +15,8 @@ const SignUp = () => {
     resolver: zodResolver(signupSchema),
   });
   const onSubmit = async (e) => {
-    // e.preventDefault();
-    // const formData = new FormData(e.currentTarget);
-    // const data = Object.fromEntries(formData.entries());
     const data = e;
     console.log("data", e);
-    // console.log(data);
-    // console.log(import.meta.env.VITE_BACKEND_URL);
     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/signup`, {
       method: "POST",
       headers: {
@@ -30,7 +25,6 @@ const SignUp = () => {
       body: JSON.stringify(data),
     });
     const val = await res.json();
-    // console.log(val);/
     if (val.message) {
       setMessage(`${val.message}! Please login `);
       setError("");
